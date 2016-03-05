@@ -9,6 +9,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'httparty'
 gem 'json'
 gem 'geocoder'
+gem 'underscore-rails'
+gem 'gmaps4rails'
 
 group :development, :test do
   gem 'byebug'
