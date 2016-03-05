@@ -8,6 +8,7 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'httparty'
 gem 'json'
+gem 'geocoder'
 
 group :development, :test do
   gem 'byebug'
@@ -42,7 +43,7 @@ group :development, :test do
   gem 'thin'
 end
 group :production do
-  gem 'pg'
+  gem 'mysql2'
   gem 'rails_12factor'
   gem 'unicorn'
 end
