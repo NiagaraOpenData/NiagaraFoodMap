@@ -14,11 +14,15 @@ class ImporterController < ApplicationController
       if currentFoodbank.blank?
         newFoodbank = Foodbank.new(
             info_key: foodbank_key,
+            latitude: foodbank['Latitude'].to_f,
+            longitude: foodbank['Longitude'].to_f,
             info: foodbank
         )
         newFoodbank.save
       else
         currentFoodbank.info = foodbank
+        #currentFoodbank.latitude = foodbank['Latitude'],
+        #currentFoodbank.longitude = foodbank['Longitude'],
         currentFoodbank.save
       end
     end

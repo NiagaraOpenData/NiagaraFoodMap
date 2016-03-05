@@ -12,6 +12,17 @@ class ApiController < ApplicationController
     end
   end
 
+  def foodbanks_nearby
+
+    latitude = params[:latitude]
+    longitude = params[:longitude]
+    @foodbanks = Foodbank.near([latitude, longitude], 20)
+
+    respond_to do |format|
+      format.json { render json: @foodbanks }
+    end
+  end
+
   protected
 
   # Set the default format to be JSON

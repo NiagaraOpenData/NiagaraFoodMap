@@ -11,13 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160305184333) do
+ActiveRecord::Schema.define(version: 20160305201205) do
 
   create_table "foodbanks", force: :cascade do |t|
     t.string   "info_key"
     t.text     "info"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
 end
