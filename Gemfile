@@ -43,7 +43,7 @@ group :development, :test do
   gem 'thin'
 end
 group :production do
-  gem 'mysql2'
+  gem 'mysql'
   gem 'rails_12factor'
   gem 'unicorn'
 end
