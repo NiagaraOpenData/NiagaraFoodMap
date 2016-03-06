@@ -5,6 +5,8 @@ This is a web app prototype created on International Open Data Day (#NiagaraFood
 
 View Food Banks in the Niagara Region.
 
+**App URL:** http://niagara-foodbanks.herokuapp.com/
+
 
 Source of Data
 ---------------
