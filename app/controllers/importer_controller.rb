@@ -1,11 +1,15 @@
 class ImporterController < ApplicationController
 
   def foodbanks
-    #@foodbanks = Foodbank.all
-
     rawFoodbanks = JSON.parse(HTTParty.get('https://raw.githubusercontent.com/NiagaraOpenData/niagara-food-banks/master/index.json'))
 
+    stats = { added: 0, updated: 0, skipped: 0, failed: 0 }
     rawFoodbanks.each do |foodbank|
+      #skip foodbank if there is no lat/lng
+      if foodbank['Latitude'].blank? or foodbank['Longitude'].blank?
+        stats[:skipped] = stats[:skipped] + 1
+        next #break out of loop
+      end
 
       foodbank_key = foodbank['Id']
 
@@ -14,23 +18,31 @@ class ImporterController < ApplicationController
       if currentFoodbank.blank?
         newFoodbank = Foodbank.new(
             info_key: foodbank_key,
-            latitude: foodbank['Latitude'].to_f,
-            longitude: foodbank['Longitude'].to_f,
+            latitude: foodbank['Latitude'],
+            longitude: foodbank['Longitude'],
             info: foodbank
         )
-        newFoodbank.save
+        if newFoodbank.save
+          stats[:added] = stats[:added] + 1
+        else
+          stats[:failed] = stats[:failed] + 1
+        end
       else
         currentFoodbank.info = foodbank
-        #currentFoodbank.latitude = foodbank['Latitude'],
-        #currentFoodbank.longitude = foodbank['Longitude'],
-        currentFoodbank.save
+        currentFoodbank.latitude = foodbank['Latitude']
+        currentFoodbank.longitude = foodbank['Longitude']
+        if currentFoodbank.save
+          stats[:updated] = stats[:updated] + 1
+        else
+          stats[:failed] = stats[:failed] + 1
+        end
       end
     end
 
     @foodbanks = Foodbank.all
 
     respond_to do |format|
-      format.json { render json: @foodbanks }
+      format.json { render json: { meta: stats, data: @foodbanks } }
     end
   end
 
